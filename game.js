@@ -8,7 +8,10 @@ function main() {
     var ws = initializeWebSocket(SERVER_URL, PROTOCOL, function(event) {GLOBAL_STATE_NO_TOUCH = event.data;});
     setTimeout(pingServer, 500, ws);
     var ctx = initializeCanvas();
-    drawCircle(ctx);
+    
+	drawCircle(ctx);
+	drawRect(ctx);
+	shoot(ctx);
 }
 
 function initializeCanvas() {
@@ -19,17 +22,101 @@ function initializeCanvas() {
 	return ctx;
 }
 
-function drawCircle(ctx) {
-    ctx.clearRect(0, 0, game_canvas.width, game_canvas.height); // clear canvas
-	var centerX = game_canvas.width / 2;
-	var centerY = game_canvas.height / 2;
+function drawRect(ctx) {
+	//ctx.clearRect(0, 0, game_canvas.width, game_canvas.height); // clear canvas
+
     ctx.beginPath();
-    ctx.arc(centerX, centerY, 10, 0, 2 * Math.PI, false);
-    ctx.fillStyle = 'green';
-    ctx.fill();
+    ctx.fillStyle = 'black';
+	ctx.fillRect(0, 0, game_canvas.width, game_canvas.height);
     ctx.lineWidth = 5;
     ctx.strokeStyle = '#003300';
     ctx.stroke();
+	
+	
+}
+
+function shoot(ctx){
+	var rect={rectY : 200, rectW :40 , rectX : -rectX};
+
+	ctx.fillStyle= "yellow";
+	ctx.fillRect(rectX,rectY,rectW,rectW);
+	setInterval(anim, 30);
+}	
+function anim() {
+		if (rectX < game_canvas.width) {
+			rectX += 5;
+			ctx.fillStyle = "yellow";
+			ctx.strokeStyle = "red";
+			ctx.lineWidth = 3;
+			ctx.fillRect(rectX,rectY,rectW,rectW);
+			ctx.strokeRect(0,rectY,rectW,rectW);
+			}
+			else rectX=-rectW;
+			
+
+}
+function drawCircle(ctx) {
+    
+	var centerX = game_canvas.width / 2;
+	var centerY = game_canvas.height / 2;
+    ctx.beginPath();
+    ctx.arc(centerX-100, centerY, 10, 0, 2 * Math.PI, false);
+    ctx.fillStyle = 'rgba(0,0,255,0.75';
+    ctx.fill();
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = 'rgba(0,150,0,0.75';
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(centerX-50, centerY, 10, 0, 2 * Math.PI, false);
+    ctx.fillStyle =  'rgba(0,0,255,0.75';
+    ctx.fill();
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = 'rgba(100,200,0,0.75';
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, 10, 0, 2 * Math.PI, false);
+    ctx.fillStyle =  'rgba(0,0,255,0.75';
+    ctx.fill();
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = 'rgba(255,255,0,0.75';
+    ctx.stroke();
+	
+
+    ctx.beginPath();
+    ctx.arc(centerX+50, centerY, 10, 0, 2 * Math.PI, false);
+    ctx.fillStyle =  'rgba(0,0,255,0.75';
+    ctx.fill();
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = 'rgba(255,150,0,.75';
+    ctx.stroke();
+	
+    ctx.beginPath();
+    ctx.arc(centerX+100, centerY, 10, 0, 2 * Math.PI, false);
+    ctx.fillStyle =  'rgba(0,0,255,0.75';
+    ctx.fill();
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = 'rgba(255,0,0,.75';
+    ctx.stroke();
+	
+}
+
+// Creates an individual in a swarm
+
+function drawIndiv(ctx){
+	
+	//ctx.clearRect(0, 0, game_canvas.width, game_canvas.height); // clear canvas
+	var centerX = game_canvas.width / 2;
+	var centerY = game_canvas.height / 2;
+	ctx.beginPath();
+	ctx.lineWidth = 15;
+	ctx.strokeStyle="black";					
+	ctx.lineJoin="miter";
+	ctx.moveTo(325,150);
+	ctx.lineTo(centerX,centerY);
+	ctx.lineTo(425,150);
+	ctx.stroke();						
 }
 
 function initializeWebSocket(url, protocol, onmessage) {
